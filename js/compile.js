@@ -102,7 +102,7 @@ CompileUtil = {
         exp.replace(/\{\{([^}]+)\}\}/g, (...arg) => {
             new Watcher(vm, arg[1], newValue => {
                 // 如果数据变化了，文本节点应该重新获取依赖的数据更新文本中的内容
-                updateFn && updateFn(node, value);
+                updateFn && updateFn(node, this.getTextVal(vm, exp));
             });
         });
 

@@ -27,7 +27,7 @@ class Observer {
             configurable: true,
             get () { // 当取值时调用的方法
                 Dep.target && dep.addSub(Dep.target);
-                // console.log(dep.subs);
+                console.log(dep.subs);
                 return value;
             },
             set (newValue) { // 当给 data 属性中设置的值适合，更改获取的属性的值
