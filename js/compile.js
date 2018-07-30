@@ -102,7 +102,7 @@ CompileUtil = {
         exp.replace(/\{\{([^}]+)\}\}/g, (...arg) => {
             new Watcher(vm, arg[1], newValue => {
                 // 如果数据变化了，文本节点应该重新获取依赖的数据更新文本中的内容
-                updateFn && updateFn(node, this.getTextVal(vm, exp));
+                updateFn && updateFn(node, newValue);
             });
         });
 
@@ -110,9 +110,10 @@ CompileUtil = {
     },
     model (node, vm, exp) { // 输入框处理
         let updateFn = this.updater['modelUpdater'];
+        let value = this.getVal(vm, exp);
         // 这里应该加一个监控，数据变化了，应该调用 watch 的回调
         new Watcher(vm, exp, newValue => {
-            updateFn && updateFn(node, this.getVal(vm, exp));
+            updateFn && updateFn(node, newValue);
         });
         // 添加输入框事件实现双向绑定
         node.addEventListener('input', e => {
@@ -120,7 +121,7 @@ CompileUtil = {
             this.setVal(vm, exp, newValue);
         });
         // 防止没有的指令解析时报错
-        updateFn && updateFn(node, this.getVal(vm, exp));
+        updateFn && updateFn(node, value);
     },
     updater: {
         // 文本更新
